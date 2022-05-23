@@ -38,7 +38,7 @@ data = read.csv("statistics/max_min_tone_per_year.csv")
 plot = ggplot() + 
   geom_bar(data=data, aes(x=year, y=maximum, fill="Positiver Ton"), stat="identity") +
   geom_bar(data=data, aes(x=year, y=minimum, fill="Negativer Ton"), stat="identity") +
-  geom_vline(xintercept=2004.5, color=colors[1], size=1, alpha=0.5) + 
+  geom_vline(xintercept=2004.5, color=lightgrey, size=1, alpha=0.5) + 
   geom_text(aes(x=2004.5, y=100, label="Keine negativen Stimmungswerte\nvor dem Jahr 2005", hjust=1, vjust=1), nudge_x = -0.5, nudge_y = -10, size=2.5) + 
   labs(x="Jahr", y="Maximum und Minimum\nAvgTon pro Jahr") +
   scale_y_continuous(breaks=c(seq(-100, 100, 50)), limit=c(-100, 100), expand=c(0.05,0.05)) +
@@ -58,7 +58,7 @@ ggsave(filename=paste0("max_min_per_year.png"),
        path="figures/",
        dpi = 600,
        width=21,
-       height = 6,
+       height = 7,
        units = "cm")
 
 
@@ -87,7 +87,7 @@ ggsave(filename=paste0("data_per_year.png"),
        path="figures/",
        dpi = 600,
        width=21,
-       height = 6,
+       height = 7,
        units = "cm")
 
 
@@ -144,8 +144,8 @@ plot = ggplot() +
   geom_vline(xintercept=2013, color=lightgrey, size=1, alpha=0.5) + 
   geom_hline(yintercept=0, color=lightgrey, size=0.5, alpha=1) +  
   geom_text(aes(x=2013, y=min(data$tone), label="Verhandlungen Assoziierungsabkommen\nzwischen EU und Ukraine (2013)", hjust=1, vjust=0), size=2.2, nudge_x=-0.5, nudge_y = 0.05) +
-  scale_y_continuous(breaks=c(min(data$tone), seq(ceiling(min(data$tone)), max(data$tone), 3), max(data$tone)),
-                     labels = round(c(min(data$tone), seq(ceiling(min(data$tone)), max(data$tone), 3), max(data$tone)), 2), 
+  scale_y_continuous(breaks=c(seq(floor(min(data$tone)), ceiling(max(data$tone)), 2)),
+                     labels = c(seq(floor(min(data$tone)), ceiling(max(data$tone)), 2)), 
                      limit=c(min(data$tone), max(data$tone)),
                      expand=c(0.05,0.05)) +
   scale_x_continuous(limit=c(1978, 2023), breaks=c(seq(1980, 2020, 5), 2022), expand=c(0.05,0.05)) +
@@ -163,7 +163,7 @@ ggsave(filename=paste0("ukr_rus_detail.png"),
        path="figures/",
        dpi = 600,
        width=21,
-       height = 6,
+       height = 7,
        units = "cm")
 
 
@@ -177,8 +177,8 @@ plot = ggplot() +
   labs(x="Jahr", y="Durchschnittlicher Ton") +
   geom_vline(xintercept=2013, color=lightgrey, size=1, alpha=0.5) + 
   geom_hline(yintercept=0, color=lightgrey, size=0.5, alpha=1) +  
-  scale_y_continuous(breaks=c(min(data$tone), seq(ceiling(min(data$tone)), max(data$tone), 3), max(data$tone)),
-                     labels = round(c(min(data$tone), seq(ceiling(min(data$tone)), max(data$tone), 3), max(data$tone)), 2), 
+  scale_y_continuous(breaks=c(seq(floor(min(data$tone)), ceiling(max(data$tone)), 2)),
+                     labels = c(seq(floor(min(data$tone)), ceiling(max(data$tone)), 2)), 
                      limit=c(min(data$tone), max(data$tone)),
                      expand=c(0.05,0.05)) +
   scale_x_continuous(limit=c(1978, 2023), breaks=c(seq(1980, 2020, 5), 2022), expand=c(0.05,0.05)) +
@@ -197,7 +197,7 @@ ggsave(filename=paste0("avg_tone_usa_ger_che.png"),
        path="figures/",
        dpi = 600,
        width=21,
-       height = 6,
+       height = 7,
        units = "cm")
 
 
@@ -218,8 +218,8 @@ plot = ggplot() +
   geom_text(aes(x=2014, y=min(data$tone), label="Annexion der\nKrim Halbinsel (2014)", hjust=1, vjust=0), size=2.2, nudge_x=-0.5, nudge_y = 0.05) +
   geom_vline(xintercept=2014, color=lightgrey, size=1, alpha=0.5) + 
   geom_hline(yintercept=0, color=lightgrey, size=0.5, alpha=1) +  
-  scale_y_continuous(breaks=c(min(data$tone), seq(ceiling(min(data$tone)), max(data$tone), 3), max(data$tone)),
-                     labels = round(c(min(data$tone), seq(ceiling(min(data$tone)), max(data$tone), 3), max(data$tone)), 2), 
+  scale_y_continuous(breaks=c(seq(floor(min(data$tone)), ceiling(max(data$tone)), 2)),
+                     labels = c(seq(floor(min(data$tone)), ceiling(max(data$tone)), 2)), 
                      limit=c(min(data$tone), max(data$tone)),
                      expand=c(0.05,0.05)) +
   scale_x_continuous(limit=c(1978, 2023), breaks=c(seq(1980, 2020, 5), 2022), expand=c(0.05,0.05)) +
@@ -238,7 +238,7 @@ ggsave(filename=paste0("avg_tone_usa_ger_che_ukr_rus_corrected.png"),
        path="figures/",
        dpi = 600,
        width=21,
-       height = 6,
+       height = 7,
        units = "cm")
 
 
@@ -307,7 +307,7 @@ ggsave(filename=paste0("global_regression_result_rsquared_violin.png"),
        path="figures/",
        dpi = 600,
        width=21,
-       height = 6,
+       height = 9,
        units = "cm")
 
 
@@ -320,6 +320,8 @@ data$type[data$data_type==2] = "Regierungs-Set"
 data$type[data$data_type==3] = "Multi-Source-Set"
 data = data[with(data, order(data_type, year)),]
 row.names(data) = NULL
+data = subset(data, data_type != 3)
+
 
 plot = ggplot() + 
   geom_line(data=subset(data, year >= 1979), aes(x=year, y=tone, color=type, alpha=type, size=type), lineend="round") +
@@ -333,9 +335,9 @@ plot = ggplot() +
                      expand=c(0.05,0.05)) +
   scale_x_continuous(limit=c(1978, 2023), breaks=c(seq(1980, 2020, 5), 2022), expand=c(0.05,0.05)) +
   theme_fivethirtyeight(base_size = 8) +
-  scale_color_manual(name = NULL, values=c(colors[1],colors[2], colors[4])) +
-  scale_alpha_manual(values=c(0.3,0.3,1)) + 
-  scale_size_manual(values=c(1,1,1.5)) + 
+  scale_color_manual(name = NULL, values=c(colors[1], colors[4])) +
+  scale_alpha_manual(values=c(0.3,1)) + 
+  scale_size_manual(values=c(1,1.5)) + 
   custom_theme + 
   guides(size=FALSE, alpha=FALSE) +
   theme(legend.position = c(0.05, 0.05),
@@ -350,7 +352,7 @@ ggsave(filename=paste0("usa_irq_detail.png"),
        path="figures/",
        dpi = 600,
        width=21,
-       height = 6,
+       height = 8,
        units = "cm")
 
 
@@ -363,7 +365,7 @@ data$type[data$data_type==2] = "Regierungs-Set"
 data$type[data$data_type==3] = "Multi-Source-Set"
 data = data[with(data, order(data_type, year)),]
 row.names(data) = NULL
-# data = subset(data, data_type == 1)
+data = subset(data, data_type != 3)
 
 plot = ggplot() + 
   geom_line(data=subset(data, year >= 1979), aes(x=year, y=tone, color=type, alpha=type, size=type), lineend="round") +
@@ -377,9 +379,9 @@ plot = ggplot() +
                      expand=c(0.05,0.05)) +
   scale_x_continuous(limit=c(1978, 2023), breaks=c(seq(1980, 2020, 5), 2022), expand=c(0.05,0.05)) +
   theme_fivethirtyeight(base_size = 8) +
-  scale_color_manual(name = NULL, values=c(colors[1],colors[2], colors[4])) +
-  scale_alpha_manual(values=c(0.3,0.3,1)) + 
-  scale_size_manual(values=c(1,1,1.5)) + 
+  scale_color_manual(name = NULL, values=c(colors[1], colors[4])) +
+  scale_alpha_manual(values=c(0.3,1)) + 
+  scale_size_manual(values=c(1,1.5)) + 
   guides(size=FALSE, alpha=FALSE) +
   custom_theme + 
   theme(legend.position = c(0.05, 0.05),
@@ -394,7 +396,7 @@ ggsave(filename=paste0("nld_rus_detail.png"),
        path="figures/",
        dpi = 600,
        width=21,
-       height = 6,
+       height = 8,
        units = "cm")
 
 
@@ -406,7 +408,7 @@ data$type[data$data_type==2] = "Regierungs-Set"
 data$type[data$data_type==3] = "Multi-Source-Set"
 data = data[with(data, order(data_type, year)),]
 row.names(data) = NULL
-# data = subset(data, data_type == 1)
+data = subset(data, data_type != 3)
 
 plot = ggplot() + 
   geom_line(data=subset(data, year >= 1979), aes(x=year, y=tone, color=type, alpha=type, size=type), lineend="round") +
@@ -420,9 +422,9 @@ plot = ggplot() +
                      expand=c(0.05,0.05)) +
   scale_x_continuous(limit=c(1978, 2023), breaks=c(seq(1980, 2020, 5), 2022), expand=c(0.05,0.05)) +
   theme_fivethirtyeight(base_size = 8) +
-  scale_color_manual(name = NULL, values=c(colors[1],colors[2], colors[4])) +
-  scale_alpha_manual(values=c(0.3,0.3,1)) + 
-  scale_size_manual(values=c(1,1,1.5)) + 
+  scale_color_manual(name = NULL, values=c(colors[1], colors[4])) +
+  scale_alpha_manual(values=c(0.3,1)) + 
+  scale_size_manual(values=c(1,1.5)) + 
   guides(size=FALSE, alpha=FALSE) +
   custom_theme + 
   theme(legend.position = c(0.05, 0.05),
@@ -437,5 +439,5 @@ ggsave(filename=paste0("afg_usa_detail.png"),
        path="figures/",
        dpi = 600,
        width=21,
-       height = 6,
+       height = 8,
        units = "cm")
