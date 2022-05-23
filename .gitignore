@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#custom
+ src/handling/bachelor-thesis-347621-956f01b0bd2a.json

@@ -1,0 +1,130 @@
+version: '3'
+
+services:
+
+  collect_gdelt: # Main environment
+    # restart: always
+    depends_on:
+      - db
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_NAME:  ${DB_NAME}
+      DB_USER:  ${DB_USER}
+      DB_HOST:  ${DB_HOST}
+      DB_PORT:  ${DB_PORT}
+      DB_PASSWORD:  ${DB_PASSWORD}
+      GOOGLE_APPLICATION_CREDENTIALS:  ${GOOGLE_APPLICATION_CREDENTIALS}
+    command: python collectGdelt.py
+    volumes:
+      - ./src/:/app
+
+  handle_gdelt_all: # Main environment
+    # restart: always
+    depends_on:
+      - db
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_NAME:  ${DB_NAME}
+      DB_USER:  ${DB_USER}
+      DB_HOST:  ${DB_HOST}
+      DB_PORT:  ${DB_PORT}
+      DB_PASSWORD:  ${DB_PASSWORD}
+      GOOGLE_APPLICATION_CREDENTIALS:  ${GOOGLE_APPLICATION_CREDENTIALS}
+    command: python handleGdeltAll.py
+    volumes:
+      - ./src/:/app
+
+  handle_elections: # Main environment
+    # restart: always
+    depends_on:
+      - db
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_NAME:  ${DB_NAME}
+      DB_USER:  ${DB_USER}
+      DB_HOST:  ${DB_HOST}
+      DB_PORT:  ${DB_PORT}
+      DB_PASSWORD:  ${DB_PASSWORD}
+      GOOGLE_APPLICATION_CREDENTIALS:  ${GOOGLE_APPLICATION_CREDENTIALS}
+    command: python handleElections.py
+    volumes:
+      - ./src/:/app
+
+  handle_countries: # Main environment
+    # restart: always
+    depends_on:
+      - db
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_NAME:  ${DB_NAME}
+      DB_USER:  ${DB_USER}
+      DB_HOST:  ${DB_HOST}
+      DB_PORT:  ${DB_PORT}
+      DB_PASSWORD:  ${DB_PASSWORD}
+      GOOGLE_APPLICATION_CREDENTIALS:  ${GOOGLE_APPLICATION_CREDENTIALS}
+    command: python handleCountries.py
+    volumes:
+      - ./src/:/app
+
+  analyse_regression: # Main environment
+    # restart: always
+    depends_on:
+      - db
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_NAME:  ${DB_NAME}
+      DB_USER:  ${DB_USER}
+      DB_HOST:  ${DB_HOST}
+      DB_PORT:  ${DB_PORT}
+      DB_PASSWORD:  ${DB_PASSWORD}
+      GOOGLE_APPLICATION_CREDENTIALS:  ${GOOGLE_APPLICATION_CREDENTIALS}
+    command: python runRegression.py
+    volumes:
+      - ./src/:/app
+  
+  shell: # Main environment
+    # restart: always
+    depends_on:
+      - db
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_NAME:  ${DB_NAME}
+      DB_USER:  ${DB_USER}
+      DB_HOST:  ${DB_HOST}
+      DB_PORT:  ${DB_PORT}
+      DB_PASSWORD:  ${DB_PASSWORD}
+      GOOGLE_APPLICATION_CREDENTIALS:  ${GOOGLE_APPLICATION_CREDENTIALS}
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t 
+    command: ipython 
+    volumes:
+      - ./src/:/app
+
+  db: # Main database
+    image: postgres
+    restart: always
+    ports:
+      - '5432:5432'
+    shm_size: 4g
+    environment:
+      POSTGRES_USER: db_user
+      POSTGRES_PASSWORD: db_pw
+      POSTGRES_DB: ba_db
+    volumes:
+      - db:/var/lib/postgresql/data/
+      - ./_data/backup:/backup
+
+volumes:
+  db:
