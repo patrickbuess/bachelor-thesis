@@ -8,7 +8,7 @@ This repository contains the code for the bachelor thesis on the subject "Do ele
 - Retrieve the sql backup file from the link provided in the thesis (or use the reduced set in _data/backup/)
 - Make sure the backup file is stored in the folder _data/backup/
 - Start the db container via `docker-compose run db`
-- Enter the docker container via `docker exec -it <USA CONTAINER NAME> /bin/bash`
+- Enter the docker container via `docker exec -it <USE CONTAINER NAME> /bin/bash`
 - Restore the file from inside the container via `psql -U db_user -d ba_db < backup/filename.sql` (your db credentials may vary)
 
 ### To run parts of the code
